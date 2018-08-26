@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<style>
+		p{color:red}
+	</style>
+</head>
+<body>
+	<p th:text="'hello: ' + ${username}">静态加载时显示</p>
+</body>
+</html>

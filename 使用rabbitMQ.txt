@@ -1,0 +1,89 @@
+RabbitMQ 是一个由 Erlang 语言开发的 AMQP 的开源实现
+一、安装
+1、安装erlang
+	http://www.erlang.org/downloads OTP 20.1 SOURCES FILE
+	https://www.erlang.org/downloads/20.1
+	
+yum install ncurses-devel
+tar xf otp_src_20.1.tar.gz
+cd opt_src_20.1
+./configure --prefix=/usr/local/erlang20 --without -javac
+ make
+ make install
+ erl验证
+ 
+2、安装RabbitMQ
+安装python 
+yum install python -y
+安装simplejson
+yum install xmlto -y
+yum install python -simplejson -y
+
+下载源码：http://www.rabbitmq.com/download.html
+Generic Unix -> rabbitmq-server-generic-unix-3.6.14.tar.gz
+
+xz -d rabbitmq-server-generic-unix-3.6.14.tar.gz	上传
+tar xf rabbitmq-server-generic-unix-3.6.14.tar.gz	解压
+mv rabbitmq_server-3.6.14 /usr/local/rabbitmq		移动
+
+修改环境变量(/etc/profile存放环境变量)
+export PATH=$PATH:/usr/local/ruby/bin;/usr/local/erlang20/bin;/usr/local/rabbitmq/sbin
+source /etc/profile（执行修改）
+作用：为配置环境变量前：./rabbitmq-server ---->配置后：rabbitmq-server
+
+	rabbitmq-server 启动 	rabbitMQ server 5672端口监听		rabbitmqctl stop停止服务
+	
+	
+二、Spring-boot继承rabbitMQ
+1、添加依赖
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-amqp</artifactId>
+</dependency>
+2、添加配置
+spring.rabbitmq.host=
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=guest		#guest用户默认不能远程连接，所以还需要配置
+spring.rabbitmq.password=guest
+spring.rabbitmq.virtual-host=/
+spring.rabbitmq.
+#消费者数量
+spring.rabbitmq.listener.simple.concurrency=10
+spring.rabbitmq.listener.simple.max-concurrency=10
+#每次从队列取多少个
+spring.rabbitmq.listener.simple.prefetch=1
+#消费者自动启动
+spring.rabbitmq.listener.simple.auto-startup=true
+#消费者操作失败重新圧入队列
+spring.rabbitmq.listener.simple.default-requeue-rejected=true
+#发布者配置
+spring.rabbitmq.template.retry.enabled=true
+spring.rabbitmq.template.retry.initial-interval=1000
+spring.rabbitmq.template.retry.max-attempts=3
+spring.rabbitmq.template.retry.max-interval=10000
+spring.rabbitmq.template.retry.multiplier=1.0
+
+为了能远程访问rabbitmq，需要在/etc/rabbitmq/下新建一个rabbitmq.config, 里面写入 [{rabbit,[{loopback_users,[]}]}]. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
